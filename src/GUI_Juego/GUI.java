@@ -99,7 +99,7 @@ public class GUI extends JFrame {
 		boolean se_inicia= juego.iniciar_tablero("Solucion/Solucion.txt");
 		
 		if( !se_inicia) {
-			JOptionPane.showMessageDialog(null," El archivo es erroneo ");
+
 			btnDeshacerJugada.setVisible(false);
 			btnPausarJuego.setVisible(false);
 			btnIniciarJuego.setVisible(false);
