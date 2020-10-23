@@ -18,6 +18,7 @@ public class Tablero  {
 	private int jugadas_realizadas;
 	private boolean existe_error;
 	private Celda [][] matriz_aux;
+	private Celda [][] matriz_copia;
 	
 	/**
 	 * Constructor de la clase Tablero
@@ -111,6 +112,8 @@ public class Tablero  {
 				matriz_aux= new Celda[9][9];
 				clonar_matriz(matriz,matriz_aux);
 				estado_inicial();
+				matriz_copia= new Celda [9][9];
+				clonar_matriz(matriz, matriz_copia);
 			}
 			
 			else borrar_tablero();
@@ -432,14 +435,39 @@ public class Tablero  {
 	}
 	
 	/**
-	 * Reinicia el tablero
+	 * Comienza una nueva partida
 	 */
-	public void reiniciar_juego() {
+	public void nuevo_juego() {
 		
 		jugadas_realizadas=0;
 		clonar_matriz(matriz_aux,matriz);
 		estado_inicial();
 		existe_error=false;
 	}
+	
+	/**
+	 * Reinicia el tablero
+	 */
+	public void reiniciar_partida() {
+		
+		int cont=0;
+		clonar_matriz(matriz_copia,matriz);
+		
+		for(int i=0; i<9; i++) {
+			for(int j=0; j<9; j++) {
+				
+				if(matriz[i][j].getElement()==0) {
+					
+					matriz[i][j].setCeldaInicial(false);
+					matriz[i][j].actualizar_Imagen(11);
+					matriz[i][j].setCeldaJugada(false);
+					cont=cont+1;
+				}
+			}
+		}
+		jugadas_realizadas=81-cont;
+		existe_error=false;
+	}
+	
 	
 }

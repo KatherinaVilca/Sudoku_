@@ -41,8 +41,9 @@ public class GUI extends JFrame {
 	private JButton btnDeshacerJugada;
 	private JButton btnPausarJuego;
 	private JButton btnIniciarJuego;
-	private JButton btnReiniciarJuego;
+	private JButton btnNuevoJuego;
 	private JButton boton[][];
+	private JButton btnReiniciarPartida;
 	
 	private JLabel label[][];
 	private JLabel titulo_juego;
@@ -110,17 +111,18 @@ public class GUI extends JFrame {
 			lblIndiqueFilaY.setVisible(false);
 			lblColumna.setVisible(false);
 			lblFila.setVisible(false);
-			btnReiniciarJuego.setVisible(false);
+			btnNuevoJuego.setVisible(false);
 		}
 		else { 
 				habilitar_funcionalidades(false);
-				btnReiniciarJuego.setVisible(false);
+				btnNuevoJuego.setVisible(false);
+				btnReiniciarPartida.setEnabled(false);
 				
 				btnIniciarJuego.addActionListener(new ActionListener() {
 				
 					public void actionPerformed(ActionEvent e) {
 						
-						if(detuve_tiempo) { // **** REINICIAR EL JUEGO ***
+						if(detuve_tiempo) { // **** REANUDAR JUEGO ***
 							tiempo.start();
 							detuve_tiempo=false;
 						
@@ -141,8 +143,8 @@ public class GUI extends JFrame {
 						estado_casillas(true);
 						habilitar_funcionalidades(true);
 						btnIniciarJuego.setEnabled(false);
-						
-						btnReiniciarJuego.setVisible(true);
+						btnReiniciarPartida.setEnabled(true);
+						btnNuevoJuego.setVisible(true);
 					}
 				});
 				
@@ -158,26 +160,34 @@ public class GUI extends JFrame {
 					}
 				});
 				
-				btnReiniciarJuego.addActionListener(new ActionListener() {
+				btnNuevoJuego.addActionListener(new ActionListener() {
 					
 					public void actionPerformed(ActionEvent e2) {
 					
 						tiempo.restart();
-						juego.reiniciar_juego();
+						juego.nuevo_juego();
 						habilitar_funcionalidades(true);
-						
-						for(int i=0;i<9 ;i++) {
-							int m=(int) i/3;
-							for(int j=0; j<9;j++) {
-								int n=(int) j/3;
-								paneles[m][n].remove(label[i][j]);
-							}
-						}
-						iniciar_imagenes();
+						estado_botones(true);
+						actualizar_panel_tablero();
 						jugar();
+						btnReiniciarPartida.setEnabled(true);
 					}
 				
 				});
+				
+				btnReiniciarPartida.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						
+						tiempo.restart();
+						juego.reiniciar_partida();
+						habilitar_funcionalidades(true);
+						btnNuevoJuego.setEnabled(true);
+						estado_botones(true);
+						actualizar_panel_tablero();
+						jugar();
+					}
+					
+				});	
 		}
 	}
 
@@ -195,6 +205,20 @@ public class GUI extends JFrame {
 			accion_borrar();	
 	}
 	
+	/**
+	 * Actualiza el tablero con imagenes
+	 */
+	private void actualizar_panel_tablero() {
+		
+		for(int i=0;i<9 ;i++) {
+			int m=(int) i/3;
+			for(int j=0; j<9;j++) {
+				int n=(int) j/3;
+				paneles[m][n].remove(label[i][j]);
+			}
+		}
+		iniciar_imagenes();
+	}
 	/**
 	 * Inicializa las imagenes el tablero
 	 */
@@ -309,10 +333,16 @@ public class GUI extends JFrame {
 		btnPausarJuego.setBounds(493, 590, 164, 32);
 		contentPane.add(btnPausarJuego);
 		
-		//******** BOTON REINICIAR
-		btnReiniciarJuego = new JButton("Reiniciar juego");
-		btnReiniciarJuego.setBounds(509, 647, 130, 26);
-		contentPane.add(btnReiniciarJuego);
+		//******** BOTON NUEVA PARTIDA
+		btnNuevoJuego = new JButton("Nueva partida");
+		btnNuevoJuego.setBounds(509, 647, 130, 26);
+		contentPane.add(btnNuevoJuego);
+		
+		// ******** BOTON REINICIAR PARTIDA
+		btnReiniciarPartida = new JButton("Reiniciar partida");
+		btnReiniciarPartida.setBounds(55, 649, 130, 23);
+		contentPane.add(btnReiniciarPartida);
+	
 	}
 
 	/**
@@ -350,12 +380,12 @@ public class GUI extends JFrame {
 		
 		//******* BOTON DESHACER JUGADA
 		btnDeshacerJugada = new JButton("Deshacer jugada");
-		btnDeshacerJugada.setBounds(55, 597, 130, 41);
+		btnDeshacerJugada.setBounds(55, 608, 130, 26);
 		contentPane.add(btnDeshacerJugada);
 	}
 	
 	/**
-	 * Agrega una nueve jugada en una casilla determinada
+	 * Agrega una nueva jugada en una casilla determinada
 	 * @param celda. Casilla donde colocar jugada
 	 */
 	private void accion_agregar(Celda celda) {
@@ -374,14 +404,20 @@ public class GUI extends JFrame {
 					if(juego.getExisteError()) {
 					
 						estado_botones(false);
-						btnReiniciarJuego.setEnabled(false);
-						
+						btnNuevoJuego.setEnabled(true);
 						JOptionPane.showMessageDialog(null,"Debe eliminar la jugada erronea antes de continuar");
 					}
 					
 					if(juego.termine_juego()) {
+						
+						tiempo.stop();
 						JOptionPane.showMessageDialog(null,"¡Juego completado!");
-						contentPane.setVisible(false);
+						estado_casillas(false);
+						habilitar_funcionalidades(false);
+						btnReiniciarPartida.setEnabled(false);
+						estado_botones(false);
+						btnIniciarJuego.setEnabled(false);
+						btnPausarJuego.setEnabled(false);
 					}
 				}
 			}
@@ -422,7 +458,7 @@ public class GUI extends JFrame {
 								reDimensionar(label[celda.getFila()][celda.getColumna()],grafic);	
 								actualizar_labels(label,juego);
 								estado_botones(true);
-								btnReiniciarJuego.setEnabled(true);
+								btnNuevoJuego.setEnabled(true);
 							}
 							else JOptionPane.showMessageDialog(null," No puede borrar una jugada pre-establecida");
 						}
@@ -530,6 +566,7 @@ public class GUI extends JFrame {
 				
 				boton[i][j].addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent e) {
+			
 						jugada= celda.getElement();
 					}
 				});
