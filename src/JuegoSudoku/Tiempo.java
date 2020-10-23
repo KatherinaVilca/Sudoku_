@@ -11,6 +11,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+/**
+ * @author Katherina vilca
+ *
+ */
 @SuppressWarnings("serial")
 public class Tiempo extends javax.swing.JFrame{
 	
@@ -21,6 +25,9 @@ public class Tiempo extends javax.swing.JFrame{
 	private JLabel label[];
 	private Celda celda[];
 	
+	/**
+	 * Constructor de la clase tiempo
+	 */
 	public Tiempo() {
 		
 		inicializar_graficos();
@@ -28,6 +35,9 @@ public class Tiempo extends javax.swing.JFrame{
 		t.start();
 	}
 
+	/**
+	 * Inicializa las imagenes del tiempo
+	 */
 	private void inicializar_graficos() {
 		
 		label= new JLabel[8];
@@ -58,6 +68,11 @@ public class Tiempo extends javax.swing.JFrame{
 		hora = minutos = segundos = 0;
 	}
 	
+	/**
+	 * Redimensiona cada imagen al tamaño del panel
+	 * @param label . Label donde ubicar la imagen
+	 * @param grafico . Imagen correspondiente
+	 */
 	private void reDimensionar(JLabel label, ImageIcon grafico) {
 		Image image = grafico.getImage();
 		
@@ -69,6 +84,9 @@ public class Tiempo extends javax.swing.JFrame{
 		}
 	}
 	
+	/**
+	 * Actualiza el tiempo y las imagenes de cada numero
+	 */
 	private ActionListener actualizar = new ActionListener(){
 
         public void actionPerformed(ActionEvent ae) {
@@ -91,10 +109,17 @@ public class Tiempo extends javax.swing.JFrame{
         }    
     };
     
+    
+    /**
+     * @return Retorna el panel de tiempo
+     */
     public JPanel getPanel_t() {
     	return panel_tiempo;
     }
     
+    /**
+     * Actualiza cada imagen segun el tiempo transcurrido
+     */
     private void actualizarLabel() {
     	
     	if(hora<= 9) {
@@ -129,14 +154,23 @@ public class Tiempo extends javax.swing.JFrame{
     	}
     }
         
+    /**
+     *  Detiene el tiempo
+     */
     public void stop() {
     	t.stop();
     }
    
+    /**
+     * Inicia el tiempo
+     */
     public void start() {
     	t.start();
     }
     
+    /**
+     * Reinicia el tiempo de cero
+     */
     public void restart() {
     	
     	hora = minutos = segundos = 0;

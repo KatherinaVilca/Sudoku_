@@ -7,6 +7,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Random;
 
+/**
+ * @author Katherina Vilca
+ *
+ */
+
 public class Tablero  {
 	
 	private Celda[][] matriz;
@@ -14,6 +19,9 @@ public class Tablero  {
 	private boolean existe_error;
 	private Celda [][] matriz_aux;
 	
+	/**
+	 * Constructor de la clase Tablero
+	 */
 	public Tablero() {
 		 this.matriz = new Celda[9][9];
 		 jugadas_realizadas=0;
@@ -55,6 +63,11 @@ public class Tablero  {
 		}
 	}
 	
+	/**
+	 * Inicializa el tablero a partir de la una ruta de un archivo
+	 * @param a .Ruta el archivo
+	 * @return Retorna la validez del archivo
+	 */
 	public boolean iniciar_tablero(String a) {
 		
 		boolean es_valido=false;
@@ -105,6 +118,10 @@ public class Tablero  {
 		return es_valido;
 	}
 			
+	
+	/**
+	 * Elimina las casillas del juego
+	 */
 	private void borrar_tablero() {
 		
 		for(int i=0; i<9; i++) {
@@ -114,6 +131,9 @@ public class Tablero  {
 		}
 	}
 	
+	/**
+	 * Elimina casillas al azar
+	 */
 	private void estado_inicial() {
 		
 		Random r= new Random();
@@ -138,6 +158,10 @@ public class Tablero  {
 		jugadas_realizadas=81-contador;
 	}
 	
+	/**
+	 * Verifica que el tablero inicial sea valido
+	 * @return Retorna si es valido o no
+	 */
 	private boolean validar_tablero() {
 		
 		boolean es_valida=true;
@@ -159,6 +183,15 @@ public class Tablero  {
 		return es_valida; 
 	}
 	
+	
+	/**
+	 * Valida una jugada correspondiente a una fila, columna y cuadrante
+	 * @param fila . Fila a verificar
+	 * @param columna. Columna a verificar
+	 * @param cuadrante . Cuadrante a verificar
+	 * @param elemento . Jugada
+	 * @return Retorna validez de la jugada.
+	 */
 	private boolean validar_jugada(int fila, int columna, int cuadrante ,int elemento) {
 		
 		boolean validez_fila=validar_fila(fila,elemento);
@@ -168,6 +201,12 @@ public class Tablero  {
 		return (validez_fila  && validez_columna && validez_cuadrante)? true:false;
 	}
 	
+	/**
+	 * Valida fila
+	 * @param fila . Fila a  verificar
+	 * @param jugada . Jugada realizada
+	 * @return Retorna true si jugada en la fila es valida, false en caso contrario
+	 */
 	private boolean validar_fila(int fila, int jugada) {
 	
 		boolean ret=true;
@@ -182,6 +221,12 @@ public class Tablero  {
 		return ret;
 	}
 	
+	/**
+	 * Valida columna
+	 * @param columna . Columna a  verificar
+	 * @param jugada . Jugada realizada
+	 * @return Retorna true si jugada en la columna es valida, false en caso contrario
+	 */
 	private boolean validar_columna(int columna, int jugada) {
 		
 		boolean ret=true;
@@ -196,6 +241,12 @@ public class Tablero  {
 		return ret;
 	}
 	
+	/**
+	 * Valida cuadrante
+	 * @param cuadrante . Cuadrante a  verificar
+	 * @param jugada . Jugada realizada
+	 * @return Retorna true si jugada no se repite en el cuadrante, false en caso contrario
+	 */
 	private boolean validar_cuadrante(int cuadrante, int jugada) {
 		
 		boolean ret=true;
@@ -240,6 +291,11 @@ public class Tablero  {
 		return ret;
 	}
 	 
+	/**
+	 * Agrega una jugada en el tablero
+	 * @param jugada . Jugada a realizar
+	 * @param celda . Casilla donde colocar la jugada
+	 */
 	public void agregar_jugada_tablero(int jugada, Celda celda) {
 		
 		int fila= celda.getFila();
@@ -261,6 +317,10 @@ public class Tablero  {
 		}
 	}
 	
+	/**
+	 * Deshace una jugada correspondiente a un lugar especifico
+	 * @param c . Casilla que quiero borrar
+	 */
 	public void deshacer_jugada(Celda c) {
 	
 		int fila= c.getFila();
@@ -288,6 +348,11 @@ public class Tablero  {
 		matriz[fila][col].setElement(0);
 	}		
 	
+	/**
+	 * Convierte un caracter a un numero
+	 * @param c . Caracter a convertir
+	 * @return caracter numero.
+	 */
 	private int nro_entero(Character c) {
 		
 		switch(c) {
@@ -304,28 +369,55 @@ public class Tablero  {
       }
 	}
 	
+	/**
+	 * Verifica si el juego llego a su fin
+	 * @return Retorna true si se completo el tablero, false en caso contrario
+	 */
 	public boolean termine_juego() {
 		
 		return jugadas_realizadas==81;
 	}
 
+	/**
+	 * Devuelve una casilla correspondiente a una fila y columna
+	 * @param fila . Fila donde se encuentra la casilla
+	 * @param columna. Columna donde se encuentra la casilla
+	 * @return Retorna la casilla correspondiente a la ubicacion
+	 */
 	public Celda getCelda(int fila, int columna) {
 		
 		return matriz[fila][columna];
 	}
 
+	/**
+	 * Retorna una nueva casilla con un numero determinado
+	 * @param i . Numero de la nueva casilla
+	 * @return Retorna casilla
+	 */
 	public Celda getCeldaOpcion(int i) {
 		return new Celda(i);
 	}
  
+	/**
+	 * @return Retorna true si existe una jugada erronea en el tablero, false en caso contrario
+	 */
 	public boolean getExisteError() {
 		return existe_error;
 	}
 	
+	/**
+	 * Le informa al tablero si existe error
+	 * @param e. Error
+	 */
 	public void setExisteError(boolean e) {
 		existe_error=e;
 	}
 	
+	/**
+	 * Clona la una matriz en otra
+	 * @param m1 Matriz origen
+	 * @param m2 Matriz destino
+	 */
 	private void clonar_matriz(Celda[][] m1, Celda[][] m2){
 		
 		for(int i=0; i<9; i++) {
@@ -339,6 +431,9 @@ public class Tablero  {
 		}
 	}
 	
+	/**
+	 * Reinicia el tablero
+	 */
 	public void reiniciar_juego() {
 		
 		jugadas_realizadas=0;

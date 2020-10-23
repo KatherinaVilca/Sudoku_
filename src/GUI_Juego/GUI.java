@@ -110,6 +110,7 @@ public class GUI extends JFrame {
 			lblIndiqueFilaY.setVisible(false);
 			lblColumna.setVisible(false);
 			lblFila.setVisible(false);
+			btnReiniciarJuego.setVisible(false);
 		}
 		else { 
 				habilitar_funcionalidades(false);
@@ -180,6 +181,9 @@ public class GUI extends JFrame {
 		}
 	}
 
+	/**
+	 * Segun la celda accionada permite agregar y eliminar jugada
+	 */
 	private void jugar() {
 		
 		for(int d=0; d<9;d++) {
@@ -191,6 +195,9 @@ public class GUI extends JFrame {
 			accion_borrar();	
 	}
 	
+	/**
+	 * Inicializa las imagenes el tablero
+	 */
 	private void iniciar_imagenes() {
 		
 		for(int i=0;i<9;i++) {
@@ -219,6 +226,9 @@ public class GUI extends JFrame {
 		}
 	}
 	
+	/**
+	 * Inicializa los paneles de cada cuadrante
+	 */
 	private void iniciar_subpaneles() {
 		
 		for(int i=0;i<3;i++) { //para jugar 1 poner a panel casillas en 3
@@ -232,6 +242,9 @@ public class GUI extends JFrame {
 		
 	}
 	
+	/**
+	 * Inicializa paneles
+	 */
 	private void inicializacion_paneles() {
 		
 		//**** VENTANA PRINCIPAL ****
@@ -242,6 +255,7 @@ public class GUI extends JFrame {
 		contentPane.setBackground(Color.WHITE);
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setLocationRelativeTo(null);
 				
 		//***** PANEL CASILLAS ****
 		panel_casillas = new JPanel();
@@ -280,6 +294,9 @@ public class GUI extends JFrame {
 		
 	}
 	
+	/**
+	 * Inicializa botones
+	 */
 	private void inicializacion_botones() {
 		
 		//******** BOTON INICIAR JUEGO
@@ -298,6 +315,9 @@ public class GUI extends JFrame {
 		contentPane.add(btnReiniciarJuego);
 	}
 
+	/**
+	 * Inicializa componentes correspondientes a deshacer una jugada
+	 */
 	private void inicializacion_funcion_eliminar() {
 		
 		//***** CASILLA DE INGRESO FILA
@@ -334,6 +354,10 @@ public class GUI extends JFrame {
 		contentPane.add(btnDeshacerJugada);
 	}
 	
+	/**
+	 * Agrega una nueve jugada en una casilla determinada
+	 * @param celda. Casilla donde colocar jugada
+	 */
 	private void accion_agregar(Celda celda) {
 		
 		label[celda.getFila()][celda.getColumna()].addMouseListener(new MouseAdapter() {
@@ -363,7 +387,10 @@ public class GUI extends JFrame {
 			}
 		});
 	}
-	
+
+	/**
+	 * Elimina una jugada realizada
+	 */
 	private void accion_borrar() {
 				
 		btnDeshacerJugada.addActionListener(new ActionListener() {
@@ -406,6 +433,10 @@ public class GUI extends JFrame {
 		juego.setExisteError(false);
 	}
 	
+	/**
+	 * Habilita o no , funcionalidades como botones o ingreso de datos
+	 * @param b. True o false
+	 */
 	private void habilitar_funcionalidades(boolean b) {
 		
 		btnDeshacerJugada.setEnabled(b);
@@ -414,6 +445,11 @@ public class GUI extends JFrame {
 		ingreso_columna.setEnabled(b);
 	}
 
+	/**
+	 * Decide si es posible convertir una variable a numero
+	 * @param cadena . Variable a verificar
+	 * @return True si es posible, false en caso contrario
+	 */
 	private static boolean isNumeric(String cadena){
 		try {
 			Integer.parseInt(cadena);
@@ -423,6 +459,10 @@ public class GUI extends JFrame {
 		}
 	}
 	
+	/**
+	 * Habilita o no las casillas del tablero del juego
+	 * @param e . Decision
+	 */
 	private void estado_casillas(boolean e) {
 		
 		for (int i=0; i<9; i++) {
@@ -432,6 +472,10 @@ public class GUI extends JFrame {
 		}
 	}
 	
+	/**
+	 * Habilita o no los botones de opcion de jugada
+	 * @param e .Decision
+	 */
 	private void estado_botones(boolean e) {
 		
 			for (int i=0; i<3; i++) {
@@ -441,6 +485,11 @@ public class GUI extends JFrame {
 			}
 	}
 	
+	/**
+	 * Actualiza las imagenes del tablero de juego si se encuentran en error o no
+	 * @param l . Coleccion que almacena las componentes graficas de cada casilla
+	 * @param juego . Juego en transcurso
+	 */
 	private void actualizar_labels(JLabel[][] l, Tablero juego) {
 		
 		for (int i=0 ; i<9 ; i++) {
@@ -455,6 +504,9 @@ public class GUI extends JFrame {
 		}
 	}
 	
+	/**
+	 * Inicializa el panel de opciones de juego
+	 */
 	private void panel_de_opciones() {
 		
 		int cont=1;
@@ -485,6 +537,11 @@ public class GUI extends JFrame {
 		}
 	}
 
+	/**
+	 * Redimenciona el componente con la imagen que correspondiente
+	 * @param label . Lugar donde alojar la imagen
+	 * @param grafico . Imagen a redimencionar
+	 */
 	private void reDimensionar(JLabel label, ImageIcon grafico) {
 		
 		Image image = grafico.getImage();
@@ -497,6 +554,12 @@ public class GUI extends JFrame {
 		}
 	}
 	
+	/**
+	 * Redimenciona la imagen de un boton
+	 * @param grafico . Imagen a colocar
+	 * @param w . Ancho 
+	 * @param h . Alto
+	 */
 	private void reDimensionarBoton(ImageIcon grafico,int w,int h) {
 		Image image = grafico.getImage();
 		if (image != null) {  

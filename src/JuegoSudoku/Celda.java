@@ -1,5 +1,9 @@
 package JuegoSudoku;
 
+/**
+ * @author Katherina Vilca
+ *
+ */
 public class Celda {
 	private int fila;
 	private int columna;
@@ -12,11 +16,21 @@ public class Celda {
 	private boolean celda_inicial;
 
 		
+	/**
+	 * Constructor de Celda con un numero especifico
+	 * @param e . Numero de la nueva celda
+	 */
 	public Celda(int e) { //para las opciones
 		elemento=e;
 		entidad_grafica= new EntidadGrafica();
 		entidad_grafica.actualizar_Imagen(elemento);	
 	}
+	
+	/**
+	 * Constructor de nueva Celda en fila y columna
+	 * @param a. Fila donde debe colocarse la celda
+	 * @param b .Columna donde debe colocarse la celda
+	 */
 	public Celda(int a,int b) {
 		fila=a;
 		columna=b;
@@ -30,9 +44,22 @@ public class Celda {
 		entidad_grafica.actualizar_Imagen(0); //representa la imagen inicial
 	}
 	
-	public void actualizar_Imagen(int i) {entidad_grafica.actualizar_Imagen(i);}
 	
-	public EntidadGrafica getEntidadGrafica() { return entidad_grafica;}
+	/**
+	 * Actualiza la imagen de la celda
+	 * @param i . Nueva imagen
+	 */
+	public void actualizar_Imagen(int i) {
+		entidad_grafica.actualizar_Imagen(i);
+	}
+	
+	
+	/**Retorna la entidad grafica de la celda
+	 * @return Entidad grafica
+	 */
+	public EntidadGrafica getEntidadGrafica() { 
+		return entidad_grafica;
+	}
 	public int getCuadrante() {return cuadrante;}
 	public int getElement() { return elemento;}
 	public int getFila() {return fila;}
