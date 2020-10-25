@@ -285,7 +285,7 @@ public class Tablero  {
 		for(int i= fila1; (i<fila2 && ret); i++) {
 			for(int j= columna1; (j<columna2 && ret); j++) {
 				if((!matriz[i][j].getCeldaEnCuestion() && matriz[i][j].getElement() == jugada )) {
-					
+		
 					ret=false; 
 					matriz[i][j].setConflicto(true);
 				}
@@ -442,6 +442,7 @@ public class Tablero  {
 		jugadas_realizadas=0;
 		clonar_matriz(matriz_aux,matriz);
 		estado_inicial();
+		clonar_matriz(matriz,matriz_copia);
 		existe_error=false;
 	}
 	

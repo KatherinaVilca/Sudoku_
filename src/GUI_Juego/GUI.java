@@ -168,6 +168,7 @@ public class GUI extends JFrame {
 						juego.nuevo_juego();
 						habilitar_funcionalidades(true);
 						estado_botones(true);
+						btnIniciarJuego.setEnabled(false);
 						actualizar_panel_tablero();
 						jugar();
 						btnReiniciarPartida.setEnabled(true);
@@ -183,6 +184,7 @@ public class GUI extends JFrame {
 						habilitar_funcionalidades(true);
 						btnNuevoJuego.setEnabled(true);
 						estado_botones(true);
+						btnIniciarJuego.setEnabled(false);
 						actualizar_panel_tablero();
 						jugar();
 					}
@@ -532,10 +534,15 @@ public class GUI extends JFrame {
 			for (int j=0; j<9; j++) {
 				Celda celda=juego.getCelda(i,j);
 				if (celda.getConflicto()) {
-					label[i][j].setBackground(Color.RED);
+					
+					label[i][j].setBorder(BorderFactory.createLineBorder(Color.RED));
 				} 
-				else					
-					label[i][j].setBackground(Color.WHITE);
+				else {	
+						if(celda.getCeldaInicial()) {
+							label[i][j].setBorder(BorderFactory.createEtchedBorder());
+						}
+						else label[i][j].setBorder(BorderFactory.createEmptyBorder());
+					}
 			}
 		}
 	}
